@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sudharaka Game</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:linear-gradient(135deg,#0f172a,#1e293b);
+    color:white;
+    text-align:center;
+}
+
+h1{
+    margin-top:20px;
+}
+
+#gameArea{
+    width:90%;
+    max-width:700px;
+    height:450px;
+    margin:20px auto;
+    border:3px solid white;
+    border-radius:20px;
+    position:relative;
+    overflow:hidden;
+    background:#111827;
+}
+
+#target{
+    width:60px;
+    height:60px;
+    background:red;
+    border-radius:50%;
+    position:absolute;
+    cursor:pointer;
+}
+
+button{
+    padding:12px 25px;
+    font-size:18px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🎮 Sudharaka Click Game</h1>
+
+<h2>Score: <span id="score">0</span></h2>
+<h2>Time: <span id="time">30</span>s</h2>
+
+<button onclick="startGame()">Start Game</button>
+
+<div id="gameArea">
+    <div id="target"></div>
+</div>
+
+<script>
+let score = 0;
+let time = 30;
+let gameRunning = false;
+
+const target = document.getElementById("target");
+const gameArea = document.getElementById("gameArea");
+
+function moveTarget(){
+    let x = Math.random() * (gameArea.clientWidth - 60);
+    let y = Math.random() * (gameArea.clientHeight - 60);
+
+    target.style.left = x + "px";
+    target.style.top = y + "px";
+}
+
+target.addEventListener("click", () => {
+    if(gameRunning){
+        score++;
+        document.getElementById("score").innerText = score;
+        moveTarget();
+    }
+});
+
+function startGame(){
+    score = 0;
+    time = 30;
+    gameRunning = true;
+
+    document.getElementById("score").innerText = score;
+    document.getElementById("time").innerText = time;
+
+    moveTarget();
+
+    let timer = setInterval(() => {
+        time--;
+        document.getElementById("time").innerText = time;
+
+        if(time <= 0){
+            clearInterval(timer);
+            gameRunning = false;
+            alert("Game Over! Your Score: " + score);
+        }
+    },1000);
+}
+</script>
+
+</body>
+</html>
